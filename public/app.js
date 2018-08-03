@@ -37,6 +37,7 @@ const requestComplete = function(){
   //
   populateList(stocks);
   renderStock(stocks);
+
 };
 
 
@@ -75,19 +76,47 @@ const renderStock = function (stocks) {
 
 const stockDetails = function(stock){
   const div = document.getElementById('div-id');
+  div.innerHTML = "";
 
-  const p = document.createElement('p');
-  p.innerText = "Primary Exchange : " + stock["quote"]["primaryExchange"];
+  const p1 = document.createElement('p');
+  p1.innerText = "Primary Exchange : " + stock["quote"]["primaryExchange"];
 
-  div.appendChild(p);
+  const p2 = document.createElement('p');
+  p2.innerText = "Sector : " + stock["quote"]["sector"];
+
+  const p3 = document.createElement('p');
+  p3.innerText = "Latest Price : " + stock["quote"]["latestPrice"];
+
+  const p4 = document.createElement('p');
+  p4.innerText = "Market Capital : " + stock["quote"]["marketCap"];
+
+  const p5 = document.createElement('p');
+  p5.innerText = stock["news"][0]["datetime"] + "\n" +
+  stock["news"][0]["headline"] + " - " + stock["news"][0]["source"];
+
+  const newsLink = document.createElement('a');
+  newsLink.href = stock["news"][0]["url"];
+  newsLink.innerText = stock["news"][0]["url"] + "\n";
+
+  // const image = document.createElement('img');
+  // image.src = stock["news"][0]["image"];
+
+  div.appendChild(p1);
+  div.appendChild(p2);
+  div.appendChild(p3);
+  div.appendChild(p4);
+  div.appendChild(p5);
+  div.appendChild(newsLink);
+  // div.appendChild(image);
 }
 
 
 
 const app = function(){
 
-  const url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,msft&types=quote,news,chart&range=1m&last=5';
+  const url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,bt,fb,msft,ms&types=quote,news,chart&range=1m&last=5';
   makeRequest(url, requestComplete);
+
 };
 
 
