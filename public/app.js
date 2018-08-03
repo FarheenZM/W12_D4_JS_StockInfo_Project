@@ -22,7 +22,7 @@ const requestComplete = function(){
     console.log(stocks[stock_names[index]]["quote"]["companyName"]);
     console.log(stocks[stock_names[index]]["news"][0]["source"]);
   }
-  
+
   // console.log(stocks);
   // console.log(stocks["AAPL"]);
   // console.log(stocks["AAPL"]["quote"]);
@@ -37,7 +37,7 @@ const requestComplete = function(){
   //
   populateList(stocks);
   renderStock(stocks);
-  displayGraph(stocks);
+
 
 };
 
@@ -67,10 +67,8 @@ const renderStock = function (stocks) {
   selected.addEventListener('change', function(event) {
 
     let stock = stocks[this.value];
-
-    console.log(stock);
-
     stockDetails(stock);
+    displayLineChart(stock);
   });
 
 }
@@ -111,29 +109,34 @@ const stockDetails = function(stock){
   // div.appendChild(image);
 }
 
-const displayGraph = function(data){
+const displayLineChart = function(data){
   google.charts.setOnLoadCallback(function(){
     const graphData = new google.visualization.DataTable();
-    graphData.addColumn('number', 'Day');
-    graphData.addColumn('number', 'Percentage');
-    graphData.addColumn('number', 'something');
-    graphData.addColumn('number', 'anything')
+    graphData.addColumn('string', 'X');
+    graphData.addColumn('number', 'Price');
 
+    console.log(data["chart"]);
 
-    graphData.addRows([
-      [1,  37.8, 80.8, 60],
-      [2,  30.9, 69.5, 40],
-      [3,  25.4, 57, 80],
-      [4,  11.7, 18.8, 35],
-      [5,  11.9, 17.6, 7.8]
-    ]);
+    for(var index in data["chart"]){
 
+      graphData.addRow([data["chart"][index]["date"], data["chart"][index]["close"]]);
+
+    }
 
     const options = {
       chart: {
         title: 'Pulse Chart',
-        subtitle: 'for 5 days'
+        subtitle: 'for 1 month'
       },
+      hAxis: {
+       title: 'Date'
+     },
+     vAxis: {
+       title: 'Price'
+     },
+     // series: {
+     //     1: {curveType: 'function'}
+     //   },
       width: 900,
       height: 500
     };
@@ -144,14 +147,19 @@ const displayGraph = function(data){
   });
 }
 
+const displayCandleStick = function(data){
+
+}
+
 
 
 const app = function(){
 
-  const url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,amzn,baba,bac,bp,bt,c,dis,ea,ebay,f,fb,fit,intc,jblu,jcp,jpm,ko,ms,msft,nflx,nok,pg,t,trip,tsla,uaa,v,vod,wdc&types=quote,news,chart&range=1m&last=5';
+  const url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,amzn,baba,bac,bp,bt,c,dis,ea,ebay,f,fb,fit,intc,jblu,jcp,jpm,ko,ms,msft,nflx,nok,pg,t,trip,tsla,uaa,v,vod,wdc&types=quote,news,chart,logo&range=1m&last=5';
   makeRequest(url, requestComplete);
 
   google.charts.load('current', {'packages':['line']});
+  google.charts.load('current', {'packages':['corechart']});
 
 };
 
