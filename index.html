@@ -1,26 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Stock Market Data</title>
-    <link rel='stylesheet' type='text/css' href='style.css'>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src='app.js'></script>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <title>Stock Market Data</title>
+  <link rel='stylesheet' type='text/css' href='style.css'>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src='app.js'></script>
+</head>
+<body>
 
-    <h1>Stock Market Data</h1>
+  <div id="container">
 
-    <select id="select-id"></select>
+    <div id="header">
+      <h1>Stock Market Data</h1>
+      <select id="select-id"></select>
+    </div>
 
-    <div id="div-top"></div>
+    <div id="info-left"></div>
+    <div id="info-right"></div>
 
     <div id="charts">
-      <div id="linechart" style="width: 900px; height: 500px;"></div>
-      <div id="candlestickChart" style="width: 1300px; height: 500px;"></div>
+      <div id="linechart"></div>
+      <div id="candlestickChart"></div>
     </div>
-    <!-- <h1>LATEST NEWS</h1> -->
-    <div id="div-news"></div>
+    <div id="statsHead"></div>
+    <div id="stats">
+      <div id="item1"></div>
+      <div id="item2"></div>
+      <div id="item3"></div>
+      <div id="item4"></div>
+      <div id="item5"></div>
+      <div id="item6"></div>
+      <div id="item7"></div>
+      <div id="item8"></div>
+      <div id="item9"></div>
+    </div>
 
-  </body>
+    <div id="news"></div>
+
+  </div>
+
+</body>
 </html>
