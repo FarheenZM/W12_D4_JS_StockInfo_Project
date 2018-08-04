@@ -37,8 +37,6 @@ const requestComplete = function(){
   //
   populateList(stocks);
   renderStock(stocks);
-
-
 };
 
 
@@ -69,9 +67,11 @@ const renderStock = function (stocks) {
     let stock = stocks[this.value];
     stockDetails(stock);
     displayLineChart(stock);
+    displayCandlestickChart(stock);
   });
 
-}
+};
+
 
 const stockDetails = function(stock){
   const div = document.getElementById('div-id');
@@ -97,8 +97,8 @@ const stockDetails = function(stock){
   newsLink.href = stock["news"][0]["url"];
   newsLink.innerText = stock["news"][0]["url"] + "\n";
 
-  // const image = document.createElement('img');
-  // image.src = stock["news"][0]["image"];
+  const image = document.createElement('img');
+  image.src = stock["logo"]["url"];
 
   div.appendChild(p1);
   div.appendChild(p2);
@@ -106,8 +106,10 @@ const stockDetails = function(stock){
   div.appendChild(p4);
   div.appendChild(p5);
   div.appendChild(newsLink);
-  // div.appendChild(image);
-}
+  div.appendChild(image);
+};
+
+
 
 const displayLineChart = function(data){
   google.charts.setOnLoadCallback(function(){
@@ -145,11 +147,37 @@ const displayLineChart = function(data){
 
     chart.draw(graphData, google.charts.Line.convertOptions(options));
   });
-}
+};
 
-const displayCandleStick = function(data){
 
-}
+
+const displayCandlestickChart = function(data){
+  google.charts.setOnLoadCallback(function(){
+    var dataArray = [];
+
+    for(var index in data["chart"]){
+      var entry = [data["chart"][index]["date"], data["chart"][index]["low"], data["chart"][index]["open"], data["chart"][index]["close"], data["chart"][index]["high"]];
+      dataArray.push(entry);
+    };
+
+    var chartData = google.visualization.arrayToDataTable(dataArray, true);
+
+    var options = {
+      legend:'none',
+      series:{
+        0: {color: 'grey'}
+      },
+      candlestick: {
+         fallingColor: { stroke: 'black', strokeWidth: 0, fill: 'red' }, // red
+         risingColor: { stroke: 'black', strokeWidth: 0, fill: '#0f9d58' }   // green
+       }
+    };
+
+    var chart = new google.visualization.CandlestickChart(document.getElementById('candlestickChart'));
+
+    chart.draw(chartData, options);
+  });
+};
 
 
 
