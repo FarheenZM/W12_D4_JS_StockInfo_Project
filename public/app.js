@@ -68,45 +68,62 @@ const renderStock = function (stocks) {
     stockDetails(stock);
     displayLineChart(stock);
     displayCandlestickChart(stock);
+    newsDetails(stock);
   });
 
 };
 
 
 const stockDetails = function(stock){
-  const div = document.getElementById('div-id');
+  const div = document.getElementById('div-top');
   div.innerHTML = "";
 
   const p1 = document.createElement('p');
-  p1.innerText = "Primary Exchange : " + stock["quote"]["primaryExchange"];
-
-  const p2 = document.createElement('p');
-  p2.innerText = "Sector : " + stock["quote"]["sector"];
-
-  const p3 = document.createElement('p');
-  p3.innerText = "Latest Price : " + stock["quote"]["latestPrice"];
-
-  const p4 = document.createElement('p');
-  p4.innerText = "Market Capital : " + stock["quote"]["marketCap"];
-
-  const p5 = document.createElement('p');
-  p5.innerText = stock["news"][0]["datetime"] + "\n" +
-  stock["news"][0]["headline"] + " - " + stock["news"][0]["source"];
-
-  const newsLink = document.createElement('a');
-  newsLink.href = stock["news"][0]["url"];
-  newsLink.innerText = stock["news"][0]["url"] + "\n";
+  p1.innerText = stock["quote"]["companyName"] + "( " + stock["quote"]["symbol"] + " : " + stock["quote"]["primaryExchange"] + " )";
 
   const image = document.createElement('img');
   image.src = stock["logo"]["url"];
 
+  const p2 = document.createElement('p');
+  p2.innerText = "Sector : " + stock["quote"]["sector"];
+
+
+  const p3 = document.createElement('p');
+  p3.innerText = stock["quote"]["latestSource"] + " : " + stock["quote"]["latestTime"];
+
+  const p4 = document.createElement('p');
+  p4.innerText = stock["quote"]["latestPrice"] + " " + stock["quote"]["change"] + " " + " (" + stock["quote"]["changePercent"] + ")";
+
+  const p5 = document.createElement('p');
+  p5.innerText = "Volume : " + stock["quote"]["latestVolume"];
+
+
   div.appendChild(p1);
+  div.appendChild(image);
   div.appendChild(p2);
   div.appendChild(p3);
   div.appendChild(p4);
   div.appendChild(p5);
-  div.appendChild(newsLink);
-  div.appendChild(image);
+
+
+};
+
+const newsDetails = function(stock){
+  const div = document.getElementById('div-news');
+  div.innerHTML = "";
+
+  const newsHeading = document.createElement('h1');
+  newsHeading.innerText = "LATEST NEWS";
+
+  div.appendChild(newsHeading);
+
+  for(var index in stock["news"]){
+    const newsLink = document.createElement('a');
+    newsLink.href = stock["news"][index]["url"];
+    newsLink.innerText = stock["news"][index]["headline"] + " - " + stock["news"][index]["source"] + "\n \n";
+    div.appendChild(newsLink);
+  }
+
 };
 
 
@@ -121,7 +138,7 @@ const displayLineChart = function(data){
 
     for(var index in data["chart"]){
 
-      graphData.addRow([data["chart"][index]["date"], data["chart"][index]["close"]]);
+      graphData.addRow([data["chart"][index]["label"], data["chart"][index]["close"]]);
 
     }
 
@@ -156,7 +173,7 @@ const displayCandlestickChart = function(data){
     var dataArray = [];
 
     for(var index in data["chart"]){
-      var entry = [data["chart"][index]["date"], data["chart"][index]["low"], data["chart"][index]["open"], data["chart"][index]["close"], data["chart"][index]["high"]];
+      var entry = [data["chart"][index]["label"], data["chart"][index]["low"], data["chart"][index]["open"], data["chart"][index]["close"], data["chart"][index]["high"]];
       dataArray.push(entry);
     };
 
@@ -168,8 +185,8 @@ const displayCandlestickChart = function(data){
         0: {color: 'grey'}
       },
       candlestick: {
-         fallingColor: { stroke: 'black', strokeWidth: 0, fill: 'red' }, // red
-         risingColor: { stroke: 'black', strokeWidth: 0, fill: '#0f9d58' }   // green
+         fallingColor: { stroke: 'black', strokeWidth: 0, fill: 'red' },
+         risingColor: { stroke: 'black', strokeWidth: 0, fill: 'green' }
        }
     };
 
