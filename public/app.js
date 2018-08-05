@@ -42,8 +42,7 @@ const requestComplete = function(){
 
 
 const populateList = function(stocks){
-  // const divContainer = document.getElementById('container');
-  // container.innerHTML = "";
+
   const divHeader = document.getElementById('header');
 
   let select = document.getElementById('select-id');
@@ -60,7 +59,7 @@ const populateList = function(stocks){
   };
 
   divHeader.appendChild(select);
-  // divContainer.appendChild(divHeader);
+
 };
 
 
@@ -83,23 +82,31 @@ const renderStock = function (stocks) {
 
 
 const stockDetails = function(stock){
-  // const container = document.getElementById('container');
 
   const divInfoLeft = document.getElementById('info-left');
   divInfoLeft.innerHTML = "";
 
-  const p1 = document.createElement('p');
-  p1.innerText = stock["quote"]["companyName"] + "( " + stock["quote"]["symbol"] + " : " + stock["quote"]["primaryExchange"] + " )";
+  const p1 = document.createElement('h2');
+  p1.innerText = stock["quote"]["companyName"] + " ( " + stock["quote"]["symbol"] + " : " + stock["quote"]["primaryExchange"] + " )";
 
   const p2 = document.createElement('p');
   p2.innerText = stock["quote"]["latestSource"] + " : " + stock["quote"]["latestTime"];
 
-  const p3 = document.createElement('p');
-  p3.innerText = stock["quote"]["latestPrice"] + " " + stock["quote"]["change"] + " " + " (" + stock["quote"]["changePercent"] + ")";
+  const p3 = document.createElement('h3');
+  p3.innerText = "$" + stock["quote"]["latestPrice"];
+
+  const p4 = document.createElement('h3');
+  p4.innerText = stock["quote"]["change"] + " " + " (" + (stock["quote"]["changePercent"]*100) + "%)";
+  if(stock["quote"]["change"] < 0){
+    p4.style.color = "red";
+  }else{
+    p4.style.color = "limegreen";
+  }
 
   divInfoLeft.appendChild(p1);
   divInfoLeft.appendChild(p2);
   divInfoLeft.appendChild(p3);
+  divInfoLeft.appendChild(p4);
 
 
   const divInfoRight = document.getElementById('info-right');
@@ -108,25 +115,22 @@ const stockDetails = function(stock){
   const logo = document.createElement('img');
   logo.src = stock["logo"]["url"];
 
-  const p4 = document.createElement('p');
-  p4.innerText = "Sector : " + stock["quote"]["sector"];
+  const p5 = document.createElement('h3');
+  p5.innerText = "Sector : " + stock["quote"]["sector"];
 
-  const p5 = document.createElement('p');
-  p5.innerText = "Volume : " + stock["quote"]["latestVolume"];
+  const p6 = document.createElement('h3');
+  p6.innerText = "Volume : " + stock["quote"]["latestVolume"];
 
   divInfoRight.appendChild(logo);
-  divInfoRight.appendChild(p4);
   divInfoRight.appendChild(p5);
-
-  // container.appendChild(divInfoLeft);
-  // container.appendChild(divInfoRight);
+  divInfoRight.appendChild(p6);
 };
 
 const displayLineChart = function(data){
   google.charts.setOnLoadCallback(function(){
     const graphData = new google.visualization.DataTable();
     graphData.addColumn('string', 'X');
-    graphData.addColumn('number', 'Y');
+    graphData.addColumn('number', 'Price');
 
     console.log(data["chart"]);
 
@@ -138,18 +142,21 @@ const displayLineChart = function(data){
 
     const options = {
       chart: {
-        title: 'Pulse Chart',
+        title: 'Stock Price',
         subtitle: 'for 1 month'
       },
       hAxis: {
-       title: 'Date'
-     },
-     vAxis: {
-       title: 'Price'
-     },
-     // series: {
-     //     1: {curveType: 'function'}
-     //   },
+        title: 'Date'
+      },
+      vAxis: {
+        title: 'Price'
+      },
+      legend: {
+        position: 'none' //to remove the color key for chart (legend)
+      }
+      // series: {
+      //     1: {curveType: 'function'}
+      //   }
       // width: 900,
       // height: 500
     };
@@ -174,6 +181,16 @@ const displayCandlestickChart = function(data){
     var chartData = google.visualization.arrayToDataTable(dataArray, true);
 
     var options = {
+      // chart: {
+      //   title: 'Stock Price'
+      //   // subtitle: 'for 1 month'
+      // },
+      hAxis: {
+        title: 'Date'
+      },
+      vAxis: {
+        title: 'Price'
+      },
       legend:'none',
       series:{
         0: {color: 'grey'}
@@ -193,41 +210,41 @@ const displayCandlestickChart = function(data){
 
 
 const keyStats = function(stock){
-  // const container = document.getElementById('container');
+
   const div = document.getElementById('statsHead');
   div.innerHTML = "";
-  const statsHeading = document.createElement('h1');
+  const statsHeading = document.createElement('h3');
   statsHeading.innerText = "KEY STATS";
   div.appendChild(statsHeading);
 
   const divStats = document.getElementById('stats');
 
   const div1 = document.getElementById('item1');
-  div1.innerText = "Open " + stock["quote"]["open"];
+  div1.innerText = "Open : " + stock["quote"]["open"];
 
   const div2 = document.getElementById('item2');
-  div2.innerText = "High " + stock["quote"]["high"];
+  div2.innerText = "Previous Close : " + stock["quote"]["previousClose"];
 
   const div3 = document.getElementById('item3');
-  div3.innerText = "Low " + stock["quote"]["low"];
+  div3.innerText = "52Week High : " + stock["quote"]["week52High"];
 
   const div4 = document.getElementById('item4');
-  div4.innerText = "previousClose " + stock["quote"]["previousClose"];
+  div4.innerText = "High : " + stock["quote"]["high"];
 
   const div5 = document.getElementById('item5');
-  div5.innerText = "marketCap " + stock["quote"]["marketCap"];
+  div5.innerText = "Market Cap : " + stock["quote"]["marketCap"];
 
   const div6 = document.getElementById('item6');
-  div6.innerText = "peRatio " + stock["quote"]["peRatio"];
+  div6.innerText = "52Week Low : " + stock["quote"]["week52Low"];
 
   const div7 = document.getElementById('item7');
-  div7.innerText = "week52High " + stock["quote"]["week52High"];
+  div7.innerText = "Low : " + stock["quote"]["low"];
 
   const div8 = document.getElementById('item8');
-  div8.innerText = "week52Low " + stock["quote"]["week52Low"];
+  div8.innerText = "P/E Ratio : " + stock["quote"]["peRatio"];
 
   const div9 = document.getElementById('item9');
-  div9.innerText = "ytdChange " + stock["quote"]["ytdChange"];
+  div9.innerText = "YTD Change : " + (stock["quote"]["ytdChange"]*100) + "%";
 
   divStats.appendChild(div1);
   divStats.appendChild(div2);
@@ -238,18 +255,16 @@ const keyStats = function(stock){
   divStats.appendChild(div7);
   divStats.appendChild(div8);
   divStats.appendChild(div9);
-  // container.appendChild(divStats);
 };
 
 
 
 const newsDetails = function(stock){
-  // const container = document.getElementById('container');
 
   const divNews = document.getElementById('news');
   divNews.innerHTML = "";
 
-  const newsHeading = document.createElement('h1');
+  const newsHeading = document.createElement('h3');
   newsHeading.innerText = "LATEST NEWS";
 
   divNews.appendChild(newsHeading);
@@ -257,11 +272,9 @@ const newsDetails = function(stock){
   for(var index in stock["news"]){
     const newsLink = document.createElement('a');
     newsLink.href = stock["news"][index]["url"];
-    newsLink.innerText = stock["news"][index]["headline"] + " - " + stock["news"][index]["source"] + "\n \n";
+    newsLink.innerText = stock["news"][index]["headline"] + " - " + stock["news"][index]["source"] + "\n\n";
     divNews.appendChild(newsLink);
-  }
-
-  // container.appendChild(divNews);
+  };
 
 };
 
