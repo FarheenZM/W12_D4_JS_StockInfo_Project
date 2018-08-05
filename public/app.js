@@ -12,16 +12,16 @@ const requestComplete = function(){
   const jsonString = this.responseText;
   const stocks = JSON.parse(jsonString);
 
-  console.log(stocks);
-  console.log(Object.keys(stocks));
-  var stock_names = Object.keys(stocks); //returns an array of keys for the hash object passed as argument
-  for (index in stock_names) {
-    console.log(stock_names[index]);
-    console.log(stocks[stock_names[index]]);
-    console.log(stocks[stock_names[index]]["quote"]);
-    console.log(stocks[stock_names[index]]["quote"]["companyName"]);
-    console.log(stocks[stock_names[index]]["news"][0]["source"]);
-  }
+  // console.log(stocks);
+  // console.log(Object.keys(stocks));
+  // var stock_names = Object.keys(stocks); //returns an array of keys for the hash object passed as argument
+  // for (index in stock_names) {
+  //   console.log(stock_names[index]);
+  //   console.log(stocks[stock_names[index]]);
+  //   console.log(stocks[stock_names[index]]["quote"]);
+  //   console.log(stocks[stock_names[index]]["quote"]["companyName"]);
+  //   console.log(stocks[stock_names[index]]["news"][0]["source"]);
+  // }
 
   // console.log(stocks);
   // console.log(stocks["AAPL"]);
@@ -35,10 +35,27 @@ const requestComplete = function(){
   // console.log(stocks["AAPL"]["news"][0]);
   // console.log(stocks["AAPL"]["news"][0]["source"]);
   //
+  const divHomeHead = document.getElementById('divHomeHead');
+  divHomeHead.innerText = "Top Stocks Live Price";
+
+  const divHome = document.getElementById('divHome');
+  var stock_names = Object.keys(stocks); //returns an array of keys for the hash object passed as argument
+  for (index in stock_names) {
+    const pHome = document.createElement('p')
+    pHome.innerText = stock_names[index] + " : $" + stocks[stock_names[index]]["quote"]["latestPrice"];
+
+    if(stocks[stock_names[index]]["quote"]["change"] < 0){
+      pHome.style.color = "red";
+    }else{
+      pHome.style.color = "limegreen";
+    }
+    divHome.appendChild(pHome);
+  }
+
   populateList(stocks);
   renderStock(stocks);
-};
 
+};
 
 
 const populateList = function(stocks){
@@ -76,6 +93,15 @@ const renderStock = function (stocks) {
     displayCandlestickChart(stock);
     newsDetails(stock);
     keyStats(stock);
+
+    // Remove div elements that we want only on Home
+    // Go to parent of div & find div as a child and remove it
+    const divHome = document.getElementById('divHome');
+    divHome.parentNode.removeChild(divHome);
+
+    const divHomeHead = document.getElementById('divHomeHead');
+    divHomeHead.parentNode.removeChild(divHomeHead);
+
   });
 
 };

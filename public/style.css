@@ -19,9 +19,11 @@ h2{
   display: grid;
   grid-gap: 3px;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 150px 230px 540px 60px 200px auto;
+  grid-template-rows: 150px 15px 10px 230px 540px 60px 200px auto;
   grid-template-areas:
       "h h h h h h"
+      "dh . . . . ."
+      "d d d d d d"
       "l l l l r r"
       "c c c c c c"
       "sh sh . . . ."
@@ -31,6 +33,22 @@ h2{
 
 #header{
   grid-area: h;
+  background-color: LightBlue;
+  opacity: 0.8;
+}
+
+#divHomeHead{
+  grid-area: dh;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#divHome{
+  grid-area: d;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(12, 30px);
+  /* visibility: hidden; */
 }
 
 #info-left{
