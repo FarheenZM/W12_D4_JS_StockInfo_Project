@@ -1,6 +1,6 @@
-/* body{
-  padding-left: 8%;
-} */
+h1{
+  font-family: Trebuchet MS;
+}
 
 select{
   font-size: 18px;
@@ -19,7 +19,7 @@ h2{
   display: grid;
   grid-gap: 3px;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 100px 230px 500px 60px 200px auto;
+  grid-template-rows: 150px 230px 540px 60px 200px auto;
   grid-template-areas:
       "h h h h h h"
       "l l l l r r"

@@ -281,7 +281,7 @@ const newsDetails = function(stock){
 
 const app = function(){
 
-  const url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,amzn,baba,bac,bp,bt,c,dis,ea,ebay,f,fb,fit,intc,jblu,jcp,jpm,ko,ms,msft,nflx,nok,pg,t,trip,tsla,uaa,v,vod,wdc&types=quote,news,chart,logo&range=1m&last=5';
+  const url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,amzn,axp,ba,baba,bac,bp,bt,c,dis,ea,ebay,f,fb,fdx,fit,intc,jblu,jcp,jpm,ko,ma,ms,msft,nflx,nke,nok,pg,t,trip,tsla,uaa,v,vod,wdc,wmt&types=quote,news,chart,logo&range=1m&last=5';
   makeRequest(url, requestComplete);
 
   google.charts.load('current', {'packages':['line']});
