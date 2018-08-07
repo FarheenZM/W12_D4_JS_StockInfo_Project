@@ -1,6 +1,7 @@
 # W12_D4_JS_StockInfo
 
 API	| Description | Auth	| HTTPS	| CORS	| Link
+--------------------------------------------------------------
 IEX	| Stocks and Market | Data	| No	| Yes	| Unknown	| Go!
 
 ## Key learning to practise and/or revise:
