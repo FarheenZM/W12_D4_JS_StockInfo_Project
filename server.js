@@ -11,7 +11,7 @@ app.use(express.static('public'));
 
 const server = app.listen(3000, function () {
   const host = server.address().address;
-  const port = server.address().port;
+  const port = server.address().port || process.env.PORT;
 
   console.log('Example app listening at http://%s:%s', host, port);
 });
